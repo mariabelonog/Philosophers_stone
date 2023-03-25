@@ -1,20 +1,21 @@
-def noun_upgrade(noun, char, sim):
+def noun_upgrade(noun, char, sim, syns_noun, syns_char, syns_sim):
     from search_functions import noun_search, search_frequency
     from syn_parcing import syn_parcing
     import pymorphy2
 
 
     morph = pymorphy2.MorphAnalyzer()
-    syns_char = syn_parcing(char)
-    syns_sim = syn_parcing(sim)
     body = []
+    for i in syns_noun:
+        if search_frequency(i) > search_frequency(noun):
+            noun = i
     s = noun_search(noun)
-    print(s)
+
     if s:
         for i in s:
             if i in syns_char or i == char:
                 body.append(i)
-            if i in syns_sim or i == sim and i not in body:
+            if i in syns_sim or i == sim:
                 body.append(i)
 
         if body:
@@ -28,9 +29,10 @@ def noun_upgrade(noun, char, sim):
                     new_body[pos] = [i]
             for i in new_body.keys():
                 new_body[i].sort(key=lambda x: -search_frequency(x))
-                body2.append(new_body[i])
-                body = body2
+                body2.extend(new_body[i])
+            body = body2
         else:
             body.append(s[0])
+            if len(s) > 1:
+                body.append(s[1])
     return body
-print(noun_upgrade('организация', 'волонтеры', 'беженцы'))

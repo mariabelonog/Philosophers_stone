@@ -1,26 +1,28 @@
-def char_upgrade(char):
+def char_upgrade(noun, char, aso, syns_noun, syns_char, syns_sim):
     from search_functions import adj_search, search_frequency, noun_search
     from syn_parcing import syn_parcing
     import pymorphy2
+    from upgrading_noun import noun_upgrade
+
     morph = pymorphy2.MorphAnalyzer()
     pos = morph.parse(char)[0].tag.POS
     body = []
-    char_syn = syn_parcing(char)
+    for i in syns_char:
+        if search_frequency(i) > search_frequency(char):
+            char = i
     if pos == 'ADJF' or pos == 'PRTF':
-        for i in char_syn:
-            if adj_search(i):
+        s = adj_search(char)
+        for i in syns_char:
+            if i in s:
                 body.append(i)
-        if not body:
-            if adj_search(char):
-                body.append(adj_search(char)[0])
+        if not body or len(body) == 1:
+            if s:
+                body.append(s[0])
+                if len(s) > 1:
+                    body.append(s[1])
+
         return body
     elif pos == 'NOUN':
-        for i in char_syn:
-            if noun_search(i):
-                body.append(i)
-        if not body:
-            if noun_search(char):
-                body.append(noun_search(char)[0])
-    return body
+        body = noun_upgrade(char, noun, aso, syns_char, syns_noun, syns_sim)
+    return list(set(body))
 
-print(char_upgrade('детский'))

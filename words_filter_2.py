@@ -1,6 +1,7 @@
-    import csv
+import csv
+import csv
 
-    with open('just_words.csv', encoding="utf8") as csvfile1, open('words2.csv', 'w', newline='') as csvfile:
+with open('just_words.csv', encoding="utf8") as csvfile1, open('words2.csv', 'w', newline='') as csvfile:
         reader = csv.reader(csvfile1, delimiter='-', quotechar='"')
         writer = csv.writer(
             csvfile, delimiter='+', quotechar='"', )

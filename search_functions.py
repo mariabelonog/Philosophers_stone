@@ -5,7 +5,7 @@ def noun_search(noun):
         for i, row in enumerate(reader):
             if row[0] == noun:
                 return eval(row[1])
-        return False
+        return []
 
 
 def search_frequency(word):
@@ -15,7 +15,7 @@ def search_frequency(word):
         for i, row in enumerate(reader):
             if row[0] == word:
                 return int(row[1])
-        return False
+        return 0
 
 
 def adj_search(adj):
@@ -25,7 +25,7 @@ def adj_search(adj):
         for i, row in enumerate(reader):
             if row[0] == adj:
                 return eval(row[1])
-        return False
+        return []
 
 
 def verb_search(verb):
@@ -35,4 +35,4 @@ def verb_search(verb):
         for i, row in enumerate(reader):
             if row[0] == verb:
                 return eval(row[1])
-        return False
+        return []
